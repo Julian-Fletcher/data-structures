@@ -24,6 +24,4 @@ Coming soon
 ## Authors
 Julian Fletcher - jf6fz@umsystem.edu
 
-## Liscense
-
 ## Tests
