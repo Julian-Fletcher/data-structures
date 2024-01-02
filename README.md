@@ -2,7 +2,8 @@
 Implementations of common data structures such as linked lists, binary search trees, and queues in C.
 
 ## Description
-This repository contains my implementations for several data structures in C. My goal was to make simple, generic, efficient, easy-to-use, and easy-to-understand functions. 
+This repository contains my implementations for several data structures in C. My goal was to make generic, efficient, and easy-to-use functions. Each data structure has functions to handle common applications (insertion, deletion, searching, etc) with comments for documentation. 
+
 ### Data structures implemented:
 * Linked lists (in progress)
 * Binary Trees (planned)
