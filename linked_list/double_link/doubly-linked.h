@@ -16,7 +16,7 @@ typedef struct {
     dlNode *head;
 }Doubly_LinkedList;
 
-Doubly_LinkedList standard_list_init();
+Doubly_LinkedList doublyL_init();
 int doublyL_insert(Doubly_LinkedList list, void *data);
 void * doublyL_delete(Doubly_LinkedList list, void *key, int (*comp_func)(void *a, void *b));
 int doublyL_search(Doubly_LinkedList list, void *key, int (*comp_func)(void *a, void *b));

@@ -6,6 +6,9 @@
 LinkedList standard_list_init(){
     LinkedList list;
     list.listHead = malloc(sizeof(slNode));
+    if(!list.listHead){
+        //Error handling!
+    }
     list.listHead->next = NULL;
     list.listHead->data = NULL;
     return list;
@@ -16,6 +19,11 @@ LinkedList standard_list_init(){
  * Requires a list and a void pointer to data
  */
 int standard_list_insert(LinkedList list, void *data){
+    //If the user passes a list that doesn't exist
+    if(list.listHead == NULL){
+        return ERR_NOLIST;
+    }
+
     // First-time list
     if(list.listHead->data == NULL){
         list.listHead->data = data;
@@ -42,38 +50,39 @@ int standard_list_insert(LinkedList list, void *data){
  * Comparison function should return 0 if the data matches
  * Also requires a list and a key to search for
  */
-void * standard_list_delete(LinkedList list, void *key, int (*comp_func)(void *a, void *b)){
+int standard_list_delete(LinkedList list, void *key, int (*comp_func)(void *a, void *b)){
     if(!list.listHead){
-        return ERR_NOLIST2;
+        return ERR_NOLIST;
     }
 
-    void *usrData = NULL;                                   // If the item isn't found, NULL will be returned
     slNode *p = list.listHead;
 
     //Check if list head contains the item to be deleted
-    if((*comp_func)(p->data, key) == 0){
-        // "Swaps" the list head with the following node
-        // Then deletes the following node and returns the user data
-        usrData = p->data;
-        p->data = p->next->data;
-        p->next = p->next->next;
+    if((*comp_func)(p->data, key) == 0){                    // "Swaps" the list head with the following node
 
-        free(p->next);
-        return usrData;
+        if(p->next == NULL){                                // Case for if there's only one node in the list
+            p->data = NULL;
+            return SUCCESS;
+        }
+        p = p->next;
+        list.listHead->data = p->data;
+        list.listHead->next = p->next;
+        free(p);
+        return SUCCESS;
     }
+
     p = p->next;
     slNode *q = list.listHead;                              // Create a second pointer to traverse the list
-    while(p->next != NULL){
+    while(p != NULL){
         if((*comp_func)(p->data, key) == 0){
-            usrData = p->data;
             q->next = p->next;                              // Link the preceding node of p to p->next and delete p
             free(p);
-            return usrData;
+            return SUCCESS;
         }
         q = p;
         p = p->next;
     }
-    return usrData;
+    return ERR_NOTINLIST;
 }
 
 /*
@@ -82,6 +91,9 @@ void * standard_list_delete(LinkedList list, void *key, int (*comp_func)(void *a
  * Requires a comparison function
  */
 int standard_list_search(LinkedList list, void *key, int (*comp_func)(void *a, void *b)){
+    if(!list.listHead){
+        return ERR_NOLIST;
+    }
     slNode *p = list.listHead;
     //Searches the list in O(n)
     while(p->next !=NULL){
@@ -97,12 +109,16 @@ int standard_list_search(LinkedList list, void *key, int (*comp_func)(void *a, v
  * Lists all items present within the linked list
  * Requires a function handle printing the data
  */
-void standard_list_print(LinkedList list, void (*print_func)(void *data)){
+int standard_list_print(LinkedList list, void (*print_func)(void *data)){
+    if(!list.listHead){
+        return ERR_NOLIST;
+    }
     slNode *p = list.listHead;
     while(p != NULL){
         (*print_func)(p->data);
         p = p->next;
     }
+    return SUCCESS;
 }
 
 /*

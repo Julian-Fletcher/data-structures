@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ERR_NOLIST2 NULL
 enum returns{
     SUCCESS = 0,
     ERR_NOMEM = -1,
