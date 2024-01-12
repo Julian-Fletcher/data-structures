@@ -33,9 +33,9 @@ int doublyL_insert(Doubly_LinkedList list, void *data){
 }
 
 
-void * doublyL_delete(Doubly_LinkedList list, void *key, int (*comp_func)(void *a, void *b)){
+int doublyL_delete(Doubly_LinkedList list, void *key, int (*comp_func)(void *a, void *b)){
     if(!list.head){
-        return NULL;
+        return ERR_NOLIST;
     }
     void * usrData;
     dlNode *p = list.head;
@@ -48,10 +48,14 @@ void * doublyL_delete(Doubly_LinkedList list, void *key, int (*comp_func)(void *
         p->next->prev = list.head;
 
         free(p);
-        return usrData;
+        return SUCCESS;
     }
     p = p->next;
-    while(p);
+    dlNode *q = list.head;
+    while(p != NULL){
+
+        p = p->next;
+    }
 }
 int doublyL_search(Doubly_LinkedList list, void *key, int (*comp_func)(void *a, void *b));
 void doublyL_print(Doubly_LinkedList list, void (*print_func)(void *data));
